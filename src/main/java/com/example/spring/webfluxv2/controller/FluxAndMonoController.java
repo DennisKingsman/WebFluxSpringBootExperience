@@ -28,4 +28,10 @@ public class FluxAndMonoController {
                 .log();
     }
 
+    @GetMapping(value = "/fluxInterval", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    public Flux<Long> getFluxInterval() {
+        return Flux.interval(Duration.ofSeconds(3))
+                .log();
+    }
+
 }

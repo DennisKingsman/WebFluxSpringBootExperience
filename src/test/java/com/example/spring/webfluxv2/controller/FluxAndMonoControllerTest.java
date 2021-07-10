@@ -23,7 +23,7 @@ public class FluxAndMonoControllerTest {
 
     //fails if Delay more than 1 sec
     @Test
-    public void fluxApproachOne() {
+    public void fluxApproachOneTest() {
         Flux<Integer> streamFlux = webTestClient.get().uri("/fluxAndMono/flux")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -37,7 +37,7 @@ public class FluxAndMonoControllerTest {
     }
 
     @Test
-    public void fluxApproachTwo() {
+    public void fluxApproachTwoTest() {
         webTestClient.get().uri("/fluxAndMono/flux")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -48,7 +48,7 @@ public class FluxAndMonoControllerTest {
     }
 
     @Test
-    public void fluxApproachThree() {
+    public void fluxApproachThreeTest() {
         List<Integer> expected = List.of(1, 2, 3, 4);
         EntityExchangeResult<List<Integer>> entityExchangeResult =
                 webTestClient.get().uri("/fluxAndMono/flux")
@@ -61,7 +61,7 @@ public class FluxAndMonoControllerTest {
     }
 
     @Test
-    public void fluxApproachFour() {
+    public void fluxApproachFourTest() {
         List<Integer> expectedIntegerList = Arrays.asList(1, 2, 3, 4);
         webTestClient
                 .get().uri("/fluxAndMono/flux")
@@ -72,6 +72,20 @@ public class FluxAndMonoControllerTest {
                 .consumeWith((response) -> {
                     assertEquals(expectedIntegerList, response.getResponseBody());
                 });
+    }
+
+    @Test
+    public void fluxIntervalTest() {
+        Flux<Long> streamFlux = webTestClient.get().uri("/fluxAndMono/fluxInterval")
+                .accept(MediaType.APPLICATION_STREAM_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .returnResult(Long.class)
+                .getResponseBody();
+        StepVerifier.create(streamFlux)
+                .expectNext(0L, 1L, 2L)
+                .thenCancel()
+                .verify();
     }
 
 }
