@@ -52,11 +52,11 @@ public class FluxAndMonoControllerTest {
         List<Integer> expected = List.of(1, 2, 3, 4);
         EntityExchangeResult<List<Integer>> entityExchangeResult =
                 webTestClient.get().uri("/fluxAndMono/flux")
-                .accept(MediaType.APPLICATION_JSON)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Integer.class)
-                .returnResult();
+                        .accept(MediaType.APPLICATION_JSON)
+                        .exchange()
+                        .expectStatus().isOk()
+                        .expectBodyList(Integer.class)
+                        .returnResult();
         assertEquals(expected, entityExchangeResult.getResponseBody());
     }
 
